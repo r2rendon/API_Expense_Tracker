@@ -1,0 +1,23 @@
+{
+  "name": "api_expense_tracker",
+  "version": "1.0.0",
+  "description": "API of the Expense Tracker",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r2rendon/API_Expense_Tracker.git"
+  },
+  "author": "Arturo Rendon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/r2rendon/API_Expense_Tracker/issues"
+  },
+  "homepage": "https://github.com/r2rendon/API_Expense_Tracker#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "express": "^4.17.1"
+  }
+}
