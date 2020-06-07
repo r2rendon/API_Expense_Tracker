@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "API of the Expense Tracker",
   "main": "app.js",
+  "start": "node_modules/.bin/nodemon app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,7 +21,9 @@
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongodb": "^3.5.8",
     "mongoose": "^5.9.18"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
