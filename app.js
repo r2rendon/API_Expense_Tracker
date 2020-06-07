@@ -2,10 +2,13 @@ const express = require("express");
 const app = express();
 const colors = require("colors");
 const mongoose = require("mongoose");
-
 require("dotenv").config();
-app.use(express.json());
 
+//Server Configuration
+app.use(express.json());
+mongoose.set("useFindAndModify", false);
+
+//Schema Definition
 const usersSchema = new mongoose.Schema({
   username: String,
   password: String,
@@ -20,9 +23,11 @@ const transactionsSchema = new mongoose.Schema({
   userId: String,
 });
 
+//Mongose Modeling
 const user = mongoose.model("user", usersSchema);
 const transaction = mongoose.model("transaction", transactionsSchema);
 
+//Connection to Mongoose
 const connectDB = async () => {
   await mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -30,6 +35,8 @@ const connectDB = async () => {
   });
   console.log("\t˜DB Connected".green);
 };
+
+// ------ R O U T E S ------
 
 //Get users
 app.get("/users", async (req, res) => {
@@ -89,6 +96,21 @@ app.post("/transaction", async (req, res) => {
   newTransaction.save((err, mRes) => {
     if (err) response = false;
   });
+
+  let actUser, balance;
+  await user.findById(req.body.userId, (err, fUser) => {
+    actUser = fUser;
+  });
+  balance = actUser.balance;
+
+  if (balance - balance == 0) balance += newTransaction.amount;
+  else balance -= newTransaction.amount;
+
+  user.findByIdAndUpdate(
+    req.body.userId,
+    { balance: balance },
+    (err, updtRes) => {}
+  );
 
   res.json({ response: response });
 });
