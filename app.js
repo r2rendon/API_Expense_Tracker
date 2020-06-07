@@ -65,6 +65,14 @@ app.get("/transactions", async (req, res) => {
   });
 });
 
+//Get transactions by userId
+app.get("/transactions/:userId", async (req, res) => {
+  await transaction.find({ userId: req.params.userId }, (err, transactions) => {
+    if (err) res.json({ err: err });
+    else res.json(transactions);
+  });
+});
+
 //Post Transactions
 app.post("/transaction", async (req, res) => {
   const newTransaction = new transaction(req.body);
