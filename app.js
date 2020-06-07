@@ -11,6 +11,7 @@ const usersSchema = new mongoose.Schema({
   password: String,
   fName: String,
   lName: String,
+  balance: Number,
 });
 
 const transactionsSchema = new mongoose.Schema({
@@ -62,6 +63,14 @@ app.get("/transactions", async (req, res) => {
   await transaction.find({}, (err, transactions) => {
     if (err) res.json({ err: err });
     else res.json(transactions);
+  });
+});
+
+//GET TRANSACTION
+app.get("/transaction/:id", async (req, res) => {
+  await transaction.findById(req.params.id, (err, transac) => {
+    if (err) res.json({ err: err });
+    else res.json(transac);
   });
 });
 
