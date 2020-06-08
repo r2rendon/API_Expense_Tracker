@@ -2,10 +2,13 @@ const express = require("express");
 const app = express();
 const colors = require("colors");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 require("dotenv").config();
 
 //Server Configuration
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 mongoose.set("useFindAndModify", false);
 
 //Schema Definition

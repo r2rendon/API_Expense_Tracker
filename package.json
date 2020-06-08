@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/r2rendon/API_Expense_Tracker#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
