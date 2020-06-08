@@ -46,9 +46,9 @@ app.get("/users", async (req, res) => {
   });
 });
 
-//Get USER
-app.get("/user/:userID", async (req, res) => {
-  await user.findById(req.params.userID, (err, user) => {
+//Get User by Username
+app.get("/user/:username", async (req, res) => {
+  await user.find({ username: req.params.username }, (err, user) => {
     if (err) res.json({ err: err });
     else res.json(user);
   });
@@ -89,7 +89,7 @@ app.get("/transactions/:userId", async (req, res) => {
   });
 });
 
-//Post Transactions
+//Post Transaction
 app.post("/transaction", async (req, res) => {
   const newTransaction = new transaction(req.body);
   let response = true;
