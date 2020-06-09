@@ -103,10 +103,20 @@ app.get("/transactions/:userId", async (req, res) => {
   });
 });
 
+//Delete Transaction
+app.delete("/transactions/:transactionID", async (req, res) => {
+  let response = true;
+  console.log(req.params.transactionID);
+  await transaction.findByIdAndDelete(req.params.transactionID, (err, res) => {
+    if (err) response = false;
+  });
+
+  res.json({ response: response });
+});
+
 //Post Transaction
 app.post("/transaction", async (req, res) => {
   const newTransaction = new transaction(req.body);
-  let response = true;
   newTransaction.save((err, mRes) => {
     if (err) response = false;
   });
@@ -126,7 +136,9 @@ app.post("/transaction", async (req, res) => {
     (err, updtRes) => {}
   );
 
-  res.json({ response: response });
+  transaction.findById(newTransaction._id, (err, transaction) => {
+    res.json(transaction);
+  });
 });
 
 app.listen(5000, () => {
