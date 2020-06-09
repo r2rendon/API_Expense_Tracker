@@ -3,6 +3,7 @@ const app = express();
 const colors = require("colors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 require("dotenv").config();
 
 //Server Configuration
@@ -10,6 +11,16 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 mongoose.set("useFindAndModify", false);
+app.use(cors());
+
+// (req, res) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "*");
+//   if (req.method === "OPTIONS") {
+//     res.header("Access-Control-Allow-Methods", "PUT, POST, DELETE, GET");
+//     return res.status(200).json({});
+//   }
+// }
 
 //Schema Definition
 const usersSchema = new mongoose.Schema({
@@ -36,7 +47,7 @@ const connectDB = async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  console.log("\t˜DB Connected".green);
+  console.log("\tDB Connected".green);
 };
 
 // ------ R O U T E S ------
