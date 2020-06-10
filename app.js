@@ -4,6 +4,7 @@ const colors = require("colors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 //Server Configuration
@@ -55,16 +56,16 @@ const connectDB = async () => {
 //Get users
 app.get("/users", async (req, res) => {
   await user.find({}, (err, users) => {
-    if (err) res.json({ err: err });
-    else res.json(users);
+    if (err) res.status(401).json({ err: err });
+    else res.status(200).json(users);
   });
 });
 
 //Get User by Username
 app.get("/user/:username", async (req, res) => {
   await user.find({ username: req.params.username }, (err, user) => {
-    if (err) res.json({ err: err });
-    else res.json(user);
+    if (err) res.status(401).json({ err: err });
+    else res.status(200).json(user);
   });
 });
 
@@ -76,30 +77,30 @@ app.post("/user", async (req, res) => {
     if (err) response = false;
   });
 
-  res.json({ response: response });
+  res.status(200).json({ response: response });
 });
 
 //Get Transactions
 app.get("/transactions", async (req, res) => {
   await transaction.find({}, (err, transactions) => {
-    if (err) res.json({ err: err });
-    else res.json(transactions);
+    if (err) res.status(401).json({ err: err });
+    else res.status(200).json(transactions);
   });
 });
 
 //GET TRANSACTION
 app.get("/transaction/:id", async (req, res) => {
   await transaction.findById(req.params.id, (err, transac) => {
-    if (err) res.json({ err: err });
-    else res.json(transac);
+    if (err) res.status(401).json({ err: err });
+    else res.status(200).json(transac);
   });
 });
 
 //Get transactions by userId
 app.get("/transactions/:userId", async (req, res) => {
   await transaction.find({ userId: req.params.userId }, (err, transactions) => {
-    if (err) res.json({ err: err });
-    else res.json(transactions);
+    if (err) res.status(401).json({ err: err });
+    else res.status(200).json(transactions);
   });
 });
 
@@ -111,7 +112,7 @@ app.delete("/transactions/:transactionID", async (req, res) => {
     if (err) response = false;
   });
 
-  res.json({ response: response });
+  res.status(200).json({ response: response });
 });
 
 //Post Transaction
@@ -137,8 +138,20 @@ app.post("/transaction", async (req, res) => {
   );
 
   transaction.findById(newTransaction._id, (err, transaction) => {
-    res.json(transaction);
+    res.status(200).json(transaction);
   });
+});
+
+//Auth
+app.post("/auth", async (req, res) => {
+  const user = jwt.verify(req.body.token, process.env.PRIVATE_KEY);
+  res.status(200).json(user);
+});
+
+//Tokenify
+app.post("/auth/tokenify", async (req, res) => {
+  const user = jwt.sign(req.body.user, process.env.PRIVATE_KEY);
+  res.status(200).json(user);
 });
 
 app.listen(5000, () => {
