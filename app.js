@@ -154,7 +154,7 @@ app.post("/auth/tokenify", async (req, res) => {
   res.status(200).json(user);
 });
 
-app.listen(5000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("\tListening on port 5000!!".green);
   connectDB();
 });
